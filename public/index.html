@@ -1,1 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Population API</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  </head>
+  <body>
+    <h1>Population API</h1>
+
+    <h2>All Data</h2>
+    <button onclick="getAllData()">Get All Data</button>
+    <div id="allData"></div>
+
+    <h2>Data by Country</h2>
+    <input type="text" id="countryInput" placeholder="Enter country name" />
+    <button onclick="getDataByCountry()">Get Data by Country</button>
+    <div id="dataByCountry"></div>
+
+    <script>
+      function getAllData() {
+        $.get("/population", function (data) {
+          var html = "";
+          data.forEach(function (row) {
+            html +=
+              "<p>Country: " +
+              row.CountryName +
+              ", Rank: " +
+              row.Rank +
+              ", Population: " +
+              row.CurrentPopulation +
+              "</p>";
+          });
+          $("#allData").html(html);
+        });
+      }
+
+      function getDataByCountry() {
+        var country = $("#countryInput").val();
+        $.get("/population/" + country, function (data) {
+          var html = "";
+          data.forEach(function (row) {
+            html +=
+              "<p>Country: " +
+              row.CountryName +
+              ", Rank: " +
+              row.Rank +
+              ", Population: " +
+              row.CurrentPopulation +
+              "</p>";
+          });
+          $("#dataByCountry").html(html);
+        });
+      }
+    </script>
+  </body>
+</html>
 
